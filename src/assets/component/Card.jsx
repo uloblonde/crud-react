@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 
-const Card = ({ data,dataArray, handleDelete, handleEdit, modalOpen, closeModal, editData, handleOnChange, handleEditModal }) => {
+const Card = ({ data, handleDelete, handleEdit, modalOpen, closeModal, editData, handleOnChange, handleEditModal }) => {
   console.log(data);
   return (
     <>

@@ -151,7 +151,6 @@ function App() {
           <div className="flex justify-center mb-5 flex-wrap ">
             <Card
               data={currentPost}
-              dataArray={currentPost}
               handleDelete={handleDelete}
               handleEdit={handleEdit}
               modalOpen={modalOpen}
