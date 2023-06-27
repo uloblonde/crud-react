@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Modal from './Modal';
 
-const Card = ({ data,dataArray, handleHapus, handleEdit, modalOpen, closeModal, editData, handleOnChange, handleEditModal }) => {
+const Card = ({ data,dataArray, handleDelete, handleEdit, modalOpen, closeModal, editData, handleOnChange, handleEditModal }) => {
   console.log(data);
   return (
     <>
@@ -16,8 +16,8 @@ const Card = ({ data,dataArray, handleHapus, handleEdit, modalOpen, closeModal, 
             <p>Stok: {item.stok}</p>
           </div>
           <div>
-            <button className="p-2 bg-red-700 rounded" onClick={() => handleHapus(index)}>
-              Hapus
+            <button className="p-2 bg-red-700 rounded" onClick={() => handleDelete(index)}>
+              Delete
             </button>
             <button className="p-2 ms-2 bg-green-500 rounded" onClick={() => handleEdit(index)}>
               Update

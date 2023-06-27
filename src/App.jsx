@@ -19,12 +19,13 @@ function App() {
     stok: 0,
   });
   const [dataArray, setDataArray] = useState([]);
-  const [gambarFile, setGambarFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(4);
+  const [search, setSearch] = useState("");
 
   const openModal = () => {
     setModalOpen(true);
@@ -36,7 +37,7 @@ function App() {
 
   const handleOnChange = (e) => {
     if (e.target.name === "gambar") {
-      setGambarFile(e.target.files[0]);
+      setImageFile(e.target.files[0]);
     } else if (modalOpen) {
       setEditData({
         ...editData,
@@ -51,24 +52,26 @@ function App() {
   };
 
   const handleAdd = () => {
-    const samaNama = dataArray.some((item) => item.namaBarang === data.namaBarang);
+    const sameName = dataArray.some((item) => item.namaBarang === data.namaBarang);
     const MAX_FILE_SIZE = 100 * 1024;
-    if (samaNama) {
+    if (sameName) {
       alert("nama barang sudah ada");
     } else {
-      if (gambarFile.size > MAX_FILE_SIZE) {
+      if (imageFile.size > MAX_FILE_SIZE) {
         alert("Gambar terlalu besar");
       } else {
         setIsLoading(true);
         const newData = {
           ...data,
-          gambar: gambarFile ? URL.createObjectURL(gambarFile) : "",
+          gambar: imageFile ? URL.createObjectURL(imageFile) : "",
         };
         setTimeout(() => {
           setDataArray((item) => [...item, newData]);
-          setGambarFile(null);
+          setImageFile(null);
           setIsLoading(false);
         }, 1000);
+
+        alert("Tambah Barang Berhasil");
       }
     }
   };
@@ -92,16 +95,17 @@ function App() {
       ...editDataArray[editIndex],
       ...editData,
     };
-
-    if (gambarFile) {
-      editDataArray[editIndex].gambar = URL.createObjectURL(gambarFile);
+    if (imageFile) {
+      editDataArray[editIndex].gambar = URL.createObjectURL(imageFile);
     }
 
     setDataArray(editDataArray);
     closeModal();
+
+    alert("Edit Berhasil");
   };
 
-  const handleHapus = (index) => {
+  const handleDelete = (index) => {
     if (confirm("Apakah Anda ingin menghapusnya?")) {
       const editDataArray = dataArray.filter((_, i) => i !== index);
       setDataArray(editDataArray);
@@ -118,7 +122,7 @@ function App() {
     <>
       <div className="items-center flex flex-col">
         <div className="flex items-center mt-2 justify-between w-[40%]">
-        {/* <input className="p-1 mt-2 mb-2 bg-gray-200 text-black w-1/2 rounded text-white shadow" placeholder="Cari Barang" type="text" onChange={handleSearch} value={searchTerm} /> */}
+          {/* <input className="p-1 mt-2 mb-2 bg-gray-200 text-black w-1/2 rounded text-white shadow" placeholder="Cari Barang" type="text" onChange={handleSearch} value={searchTerm} /> */}
           <h1 className="font-bold  p-2 bg-gray-300 rounded">Tambah Barang</h1>
         </div>
         <div className="flex flex-col bg-gray-300 w-2/5 m-auto rounded shadow mt-2 items-center pb-4">
@@ -127,11 +131,11 @@ function App() {
           <label>Gambar Barang</label>
           <input className="p-1 mb-2 bg-slate-500 w-96 rounded text-white shadow" type="file" accept="image/jpeg, image/png, image/jpg" name="gambar" onChange={handleOnChange} />
           <label>Harga Beli</label>
-          <input className="p-1 mb-2 bg-slate-500 w-96 rounded text-white shadow" type="number" name="hargaBeli" onChange={handleOnChange} />
+          <input className="p-1 mb-2 bg-slate-500 w-96 rounded text-white shadow" type="number" name="hargaBeli" onChange={handleOnChange} pattern="[0-9]*" inputMode="numeric" />
           <label>Harga Jual</label>
-          <input className="p-1 mb-2 bg-slate-500 w-96 rounded text-white shadow" type="number" name="hargaJual" onChange={handleOnChange} />
+          <input className="p-1 mb-2 bg-slate-500 w-96 rounded text-white shadow" type="number" name="hargaJual" onChange={handleOnChange} pattern="[0-9]*" inputMode="numeric"/>
           <label>Stok</label>
-          <input className="p-1 mb-2 bg-slate-500 w-96 rounded text-white shadow" type="number" name="stok" onChange={handleOnChange} />
+          <input className="p-1 mb-2 bg-slate-500 w-96 rounded text-white shadow" type="number" name="stok" onChange={handleOnChange} pattern="[0-9]*" inputMode="numeric" />
           <button className="p-2 mt-5 bg-lime-400 rounded shadow" onClick={handleAdd}>
             Tambah
           </button>
@@ -148,7 +152,7 @@ function App() {
             <Card
               data={currentPost}
               dataArray={currentPost}
-              handleHapus={handleHapus}
+              handleDelete={handleDelete}
               handleEdit={handleEdit}
               modalOpen={modalOpen}
               closeModal={closeModal}
