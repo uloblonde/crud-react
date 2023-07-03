@@ -25,7 +25,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(4);
-  const [search, setSearch] = useState("");
 
   const openModal = () => {
     setModalOpen(true);
@@ -53,7 +52,7 @@ function App() {
 
   const handleAdd = () => {
     const sameName = dataArray.some((item) => item.namaBarang === data.namaBarang);
-    const MAX_FILE_SIZE = 100 * 1024;
+    const MAX_FILE_SIZE = 1000 * 1024;
     if (sameName) {
       alert("nama barang sudah ada");
     } else {
@@ -114,8 +113,8 @@ function App() {
     }
   };
 
-  const lastPostIndex = currentPage * postPerPage; //4
-  const firstPostIndex = lastPostIndex - postPerPage; //4 - 4
+  const lastPostIndex = currentPage * postPerPage; 
+  const firstPostIndex = lastPostIndex - postPerPage; 
   const currentPost = dataArray.slice(firstPostIndex, lastPostIndex);
 
   return (
